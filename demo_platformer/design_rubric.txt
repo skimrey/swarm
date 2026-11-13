@@ -1,0 +1,4 @@
+#context: The text is a platformer level drawn as 20 rows of 60 characters. '#' is solid, '.' is air, S is the start, G is the goal. A platform is a run of '#'. The player jumps at most 3 rows up and 4 columns across. Say what to change in terms of platforms (add, move, lengthen, shorten or remove a platform), not cells.
+At some point the player can choose between two different ways forward, and at least one of them is a dead end or a detour.
+The platforms form at least one recognizable shape, such as a staircase, a tower, a pit with a bridge, or floating islands, rather than unrelated platforms scattered about.
+The platforms are spread across most of the width and several heights, not bunched in one part of the screen.

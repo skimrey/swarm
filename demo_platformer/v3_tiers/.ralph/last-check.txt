@@ -1,0 +1,8 @@
+CHECK FAILED: rework pending for 29
+CHECK FAILED: generateLevel(33) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(34) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(35) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(36) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(37) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(38) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(39) returned 0 rows, shorter than 20

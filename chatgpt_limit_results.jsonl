@@ -1,0 +1,46 @@
+{"chars": 1960, "ok": true, "found": 3, "echoed": false, "secs": 11.9, "reply": "TOK-27524CF7 TOK-1F8F5496 TOK-7F5351A6", "error": null, "ts": "2026-11-05 17:44:21"}
+{"chars": 4969, "ok": true, "found": 3, "echoed": false, "secs": 13.0, "reply": "TOK-B082841A TOK-D84F448C TOK-258476AD", "error": null, "ts": "2026-11-05 17:44:34"}
+{"chars": 4961, "ok": false, "found": 0, "echoed": false, "secs": 19.7, "reply": "TOK-0614923C TOK-5CA4E5D6 TOK-59066006", "error": null, "ts": "2026-11-05 17:49:19"}
+{"chars": 2458, "ok": true, "found": 3, "echoed": false, "secs": 10.6, "reply": "TOK-B9C4D08F TOK-6BE59CB8 TOK-75AAA38C", "error": null, "ts": "2026-11-05 17:49:30"}
+{"chars": 3715, "ok": true, "found": 3, "echoed": false, "secs": 11.7, "reply": "TOK-89026C7B TOK-DFD85DC9 TOK-EA076B51", "error": null, "ts": "2026-11-05 17:49:42"}
+{"chars": 4336, "ok": true, "found": 3, "echoed": false, "secs": 11.8, "reply": "TOK-AC51DBEF TOK-3EB7F9DC TOK-3A7757D9", "error": null, "ts": "2026-11-05 17:49:53"}
+{"chars": 4965, "ok": true, "found": 3, "echoed": false, "secs": 14.0, "reply": "TOK-A09139CA TOK-6BD25139 TOK-210E87CA", "error": null, "ts": "2026-11-05 17:50:17"}
+{"chars": 9967, "ok": true, "found": 3, "echoed": false, "secs": 16.2, "reply": "TOK-AB4713FB TOK-06B9FC48 TOK-E734FC82", "error": null, "ts": "2026-11-05 17:50:33"}
+{"chars": 19961, "ok": false, "found": 0, "echoed": false, "secs": 26.8, "reply": "Error: Clipboard was empty after clicking the copy icon", "error": null, "ts": "2026-11-05 17:51:00"}
+{"chars": 14959, "ok": true, "found": 3, "echoed": false, "secs": 19.6, "reply": "TOK-679CDBF5 TOK-71E8554E TOK-37A2CA09", "error": null, "ts": "2026-11-05 17:51:20"}
+{"chars": 19923, "ok": false, "found": 0, "echoed": false, "secs": 31.8, "reply": "Error: Copy icon did not appear after 20 scrolls", "error": null, "ts": "2026-11-05 17:55:52"}
+{"chars": 17462, "ok": false, "found": 0, "echoed": false, "secs": 25.6, "reply": "Error: Clipboard was empty after clicking the copy icon", "error": null, "ts": "2026-11-05 17:56:18"}
+{"chars": 23965, "ok": true, "found": 3, "echoed": false, "secs": 21.9, "reply": "TOK-A0B510F8 TOK-377BFF67 TOK-F62D5903", "error": null, "ts": "2026-11-05 17:56:40"}
+{"chars": 17461, "ok": true, "found": 3, "echoed": false, "secs": 20.9, "reply": "TOK-6FBA0401 TOK-5DC4CF2B TOK-6CF299AB", "error": null, "ts": "2026-11-05 17:58:29"}
+{"chars": 19962, "ok": true, "found": 3, "echoed": false, "secs": 23.1, "reply": "TOK-EE423B40 TOK-F9822D70 TOK-06F00895", "error": null, "ts": "2026-11-05 17:58:52"}
+{"chars": 23965, "ok": true, "found": 3, "echoed": false, "secs": 31.7, "reply": "TOK-D02724F9 TOK-1FD10D13 TOK-63C53A1C", "error": null, "ts": "2026-11-05 17:59:24"}
+{"chars": 17461, "ok": false, "found": 0, "echoed": false, "secs": 41.3, "reply": "Error: Copy icon did not appear after 20 scrolls", "error": null, "ts": "2026-11-05 18:00:05"}
+{"chars": 19959, "ok": false, "found": 0, "echoed": false, "secs": 28.0, "reply": "Error: Clipboard was empty after clicking the copy icon", "error": null, "ts": "2026-11-05 18:00:33"}
+{"chars": 17468, "ok": true, "found": 3, "echoed": false, "secs": 23.0, "reply": "TOK-90A2B956 TOK-AE382070 TOK-F026ED16", "error": null, "ts": "2026-11-05 18:01:48"}
+{"chars": 19966, "ok": true, "found": 3, "echoed": false, "secs": 26.2, "reply": "TOK-16F850A6 TOK-35D8A168 TOK-465908C5", "error": null, "ts": "2026-11-05 18:02:14"}
+{"chars": 23962, "ok": true, "found": 3, "echoed": false, "secs": 25.4, "reply": "TOK-BA677D50 TOK-C807A71F TOK-30C6C9C7", "error": null, "ts": "2026-11-05 18:02:40"}
+{"chars": 17468, "ok": true, "found": 3, "echoed": false, "secs": 20.8, "reply": "TOK-2BC7C045 TOK-31BE1D88 TOK-5923A894", "error": null, "ts": "2026-11-05 18:03:00"}
+{"chars": 19966, "ok": true, "found": 3, "echoed": false, "secs": 23.1, "reply": "TOK-8EC1543B TOK-A3BBEF2A TOK-235075BD", "error": null, "ts": "2026-11-05 18:03:24"}
+{"chars": 23964, "ok": true, "found": 3, "echoed": false, "secs": 25.3, "reply": "TOK-A2DF9E52 TOK-8271B14D TOK-69F0C142", "error": null, "ts": "2026-11-05 18:03:49"}
+{"chars": 17464, "ok": true, "found": 3, "echoed": false, "secs": 20.8, "reply": "TOK-0AC98A17 TOK-B33F3621 TOK-F772259B", "error": null, "ts": "2026-11-05 18:04:10"}
+{"chars": 19965, "ok": true, "found": 3, "echoed": false, "secs": 23.1, "reply": "TOK-41BD58D2 TOK-041C6441 TOK-8F8B895D", "error": null, "ts": "2026-11-05 18:04:33"}
+{"chars": 23960, "ok": true, "found": 3, "echoed": false, "secs": 25.4, "reply": "TOK-6BBF9ECF TOK-CFEEE141 TOK-2946060C", "error": null, "ts": "2026-11-05 18:04:58"}
+{"chars": 17462, "ok": true, "found": 3, "echoed": false, "secs": 20.8, "reply": "TOK-11A74D53 TOK-1FD8F51E TOK-23746BDD", "error": null, "ts": "2026-11-05 18:05:19"}
+{"chars": 19962, "ok": true, "found": 3, "echoed": false, "secs": 23.6, "reply": "TOK-9C8C81DE TOK-BCC4B744 TOK-EDDCC9D3", "error": null, "ts": "2026-11-05 18:05:43"}
+{"chars": 23962, "ok": true, "found": 3, "echoed": false, "secs": 25.3, "reply": "TOK-F2EF2EB0 TOK-A91D9FCF TOK-5CD426B0", "error": null, "ts": "2026-11-05 18:06:08"}
+{"chars": 17466, "ok": true, "found": 3, "echoed": false, "secs": 21.3, "reply": "TOK-8881CDEA TOK-82419865 TOK-49BC829D", "error": null, "ts": "2026-11-05 18:06:29"}
+{"chars": 19965, "ok": true, "found": 3, "echoed": false, "secs": 23.7, "reply": "TOK-89144B32 TOK-78746599 TOK-608F9053", "error": null, "ts": "2026-11-05 18:06:53"}
+{"chars": 23967, "ok": true, "found": 3, "echoed": false, "secs": 25.9, "reply": "TOK-591B9814 TOK-FE5E93DB TOK-9FF02F97", "error": null, "ts": "2026-11-05 18:07:19"}
+{"chars": 31964, "ok": true, "found": 3, "echoed": false, "secs": 32.4, "reply": "TOK-5FEEA7CD TOK-7BEA7A30 TOK-45C28CDD", "error": null, "ts": "2026-11-05 18:07:59"}
+{"chars": 47966, "ok": false, "found": 0, "echoed": false, "secs": 32.8, "reply": "Error: Could not copy the response after 20 scrolls", "error": null, "ts": "2026-11-05 18:08:32"}
+{"chars": 47968, "ok": true, "found": 3, "echoed": false, "secs": 41.2, "reply": "TOK-497DA171 TOK-1DA01A25 TOK-5D6095BF", "error": null, "ts": "2026-11-05 18:11:42"}
+{"chars": 63963, "ok": true, "found": 3, "echoed": false, "secs": 53.0, "reply": "TOK-DFFFEF07 TOK-E62FE56D TOK-98C68D93", "error": null, "ts": "2026-11-05 18:12:35"}
+{"chars": 95964, "ok": true, "found": 3, "echoed": false, "secs": 74.6, "reply": "TOK-1436AD68 TOK-5CA036CA TOK-E257B7AE", "error": null, "ts": "2026-11-05 18:13:50"}
+{"chars": 127963, "ok": [], "found": 0, "echoed": false, "secs": 110.7, "reply": "", "error": "connection to http://10.0.0.178:11436 dropped: Remote end closed connection without response", "ts": "2026-11-05 18:15:40"}
+{"chars": 111959, "ok": [], "found": 0, "echoed": false, "secs": 0.1, "reply": "", "error": "could not reach http://10.0.0.178:11436: [Errno 61] Connection refused", "ts": "2026-11-05 18:15:41"}
+{"chars": 103964, "ok": [], "found": 0, "echoed": false, "secs": 0.0, "reply": "", "error": "could not reach http://10.0.0.178:11436: [Errno 61] Connection refused", "ts": "2026-11-05 18:15:41"}
+{"chars": 99963, "ok": [], "found": 0, "echoed": false, "secs": 0.1, "reply": "", "error": "could not reach http://10.0.0.178:11436: [Errno 61] Connection refused", "ts": "2026-11-05 18:15:41"}
+{"chars": 127967, "ok": [], "found": 0, "echoed": false, "secs": 25.1, "reply": "", "error": "connection to http://10.0.0.178:11436 dropped: Remote end closed connection without response", "ts": "2026-11-05 18:17:20"}
+{"chars": 127959, "ok": [], "found": 0, "echoed": false, "secs": 74.4, "reply": "", "error": "connection to http://10.0.0.178:11436 dropped: Remote end closed connection without response", "ts": "2026-11-05 18:19:04"}
+{"chars": 127963, "ok": [], "found": 0, "echoed": false, "secs": 54.1, "reply": "", "error": "connection to http://10.0.0.178:11436 dropped: Remote end closed connection without response", "ts": "2026-11-05 18:25:21"}
+{"chars": 95963, "ok": true, "found": 3, "echoed": false, "secs": 74.5, "reply": "TOK-63E5EC83 TOK-1C748A45 TOK-FF10B0B2", "error": null, "ts": "2026-11-05 18:29:55"}

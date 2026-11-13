@@ -1,0 +1,26 @@
+{
+ "lru": {
+  "pass": true,
+  "why": "",
+  "secs": 45.1,
+  "tokens": 469,
+  "finish": "stop",
+  "think_chars": 1258
+ },
+ "duration": {
+  "pass": true,
+  "why": "",
+  "secs": 129.5,
+  "tokens": 1560,
+  "finish": "stop",
+  "think_chars": 4585
+ },
+ "intervals": {
+  "pass": true,
+  "why": "",
+  "secs": 43.7,
+  "tokens": 370,
+  "finish": "stop",
+  "think_chars": 1097
+ }
+}

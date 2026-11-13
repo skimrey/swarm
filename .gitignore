@@ -1,0 +1,41 @@
+# Pool state: config is per-machine, backups and sessions are local history.
+# Registered API specs are the one exception -- a spec is a fact about an
+# external service, not per-machine state, so it travels with the repo
+# instead of needing `openapi.py --add` re-run (and the real API re-fetched)
+# on every new box. `.swarm/*` (not `.swarm/`) so git still recurses into
+# the directory far enough for the negation below to take effect.
+.swarm/*
+!.swarm/specs/
+!.swarm/specs/**
+config.local.json
+config_*.json
+
+__pycache__/
+*.pyc
+*.bak-*
+
+# Measurement output from one-off experiments.
+critic_eval_*.json
+plan_demo.json
+.commitmsg
+
+# Deliberately NOT listing generated packages here any more.
+#
+# This file used to name each one as it appeared -- graphkit/, textkit/,
+# dupfinder.py, and so on -- and the list grew for months. Two things went
+# wrong with that. Debris became invisible: `git status` stayed clean while
+# ten abandoned packages and a dozen pygame files accumulated at the root,
+# until a `for t in *_test.py` loop ran one of them and hung the terminal.
+# And the same pattern caught real work by accident: twelve hand-written
+# machinery tests were ignored alongside the junk, including the four AGENTS.md
+# cites by name, so a fresh clone had no test suite at all.
+#
+# Untracked debris showing up in `git status` is the feature. Delete it or
+# commit it, but see it.
+
+# never commit credentials
+.env
+.env.*
+*.pem
+*.key
+credentials

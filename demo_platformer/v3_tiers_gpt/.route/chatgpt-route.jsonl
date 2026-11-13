@@ -1,0 +1,83 @@
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 22.1, "reply_chars": 49, "chars": 12353, "tokens": 3092, "ts": "2026-11-05 18:40:54"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 20.9, "reply_chars": 9, "chars": 12353, "tokens": 3092, "ts": "2026-11-05 18:42:46"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 26.9, "reply_chars": 9, "chars": 12392, "tokens": 3102, "ts": "2026-11-05 18:43:31"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 52.6, "reply_chars": 35, "chars": 13387, "tokens": 3350, "ts": "2026-11-05 18:44:42"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 41.5, "reply_chars": 33, "chars": 13587, "tokens": 3400, "ts": "2026-11-05 18:45:38"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 36.4, "reply_chars": 33, "chars": 13736, "tokens": 3438, "ts": "2026-11-05 18:46:29"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 46.6, "reply_chars": 72, "chars": 13885, "tokens": 3475, "ts": "2026-11-05 18:47:29"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 37.5, "reply_chars": 37, "chars": 13954, "tokens": 3492, "ts": "2026-11-05 18:48:20"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 39.9, "reply_chars": 37, "chars": 13387, "tokens": 3350, "ts": "2026-11-05 18:50:23"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 39.6, "reply_chars": 49, "chars": 13466, "tokens": 3370, "ts": "2026-11-05 18:51:21"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 35.7, "reply_chars": 24, "chars": 14298, "tokens": 3578, "ts": "2026-11-05 18:52:16"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 41.9, "reply_chars": 23, "chars": 15047, "tokens": 3765, "ts": "2026-11-05 18:53:18"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 35.7, "reply_chars": 24, "chars": 15804, "tokens": 3955, "ts": "2026-11-05 18:54:13"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 48.4, "reply_chars": 23, "chars": 15777, "tokens": 3948, "ts": "2026-11-05 18:55:24"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 45.2, "reply_chars": 99, "chars": 15787, "tokens": 3950, "ts": "2026-11-05 18:56:27"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 41.9, "reply_chars": 44, "chars": 15863, "tokens": 3969, "ts": "2026-11-05 18:57:29"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 39.7, "reply_chars": 49, "chars": 15804, "tokens": 3955, "ts": "2026-11-05 18:58:27"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 20.6, "reply_chars": 1160, "chars": 1260, "tokens": 319, "ts": "2026-11-05 18:59:00"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 37.0, "reply_chars": 23, "chars": 13466, "tokens": 3370, "ts": "2026-11-05 19:00:26"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 151.9, "reply_chars": 25, "chars": 14270, "tokens": 3571, "ts": "2026-11-05 19:03:17"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 46.1, "reply_chars": 24, "chars": 15020, "tokens": 3759, "ts": "2026-11-05 19:04:21"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 44.9, "reply_chars": 49, "chars": 15778, "tokens": 3948, "ts": "2026-11-05 19:05:25"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 47.3, "reply_chars": 25, "chars": 15806, "tokens": 3955, "ts": "2026-11-05 19:06:30"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 40.5, "reply_chars": 25, "chars": 15806, "tokens": 3955, "ts": "2026-11-05 19:07:29"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 45.4, "reply_chars": 25, "chars": 17694, "tokens": 4427, "ts": "2026-11-05 19:08:50"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 40.2, "reply_chars": 46, "chars": 13443, "tokens": 3364, "ts": "2026-11-05 19:10:44"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 37.6, "reply_chars": 45, "chars": 14191, "tokens": 3551, "ts": "2026-11-05 19:11:39"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 44.2, "reply_chars": 21, "chars": 14970, "tokens": 3746, "ts": "2026-11-05 19:12:41"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 48.5, "reply_chars": 32, "chars": 15725, "tokens": 3935, "ts": "2026-11-05 19:13:47"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 40.9, "reply_chars": 44, "chars": 15709, "tokens": 3931, "ts": "2026-11-05 19:14:46"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 43.1, "reply_chars": 44, "chars": 15705, "tokens": 3930, "ts": "2026-11-05 19:15:46"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 44.1, "reply_chars": 45, "chars": 15724, "tokens": 3935, "ts": "2026-11-05 19:16:48"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 44.7, "reply_chars": 23, "chars": 15818, "tokens": 3958, "ts": "2026-11-05 19:17:51"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 15.8, "reply_chars": 1147, "chars": 1260, "tokens": 319, "ts": "2026-11-05 19:18:22"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 44.1, "reply_chars": 46, "chars": 13443, "tokens": 3364, "ts": "2026-11-05 19:19:42"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 35.3, "reply_chars": 23, "chars": 14272, "tokens": 3572, "ts": "2026-11-05 19:20:35"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 36.4, "reply_chars": 21, "chars": 13466, "tokens": 3370, "ts": "2026-11-05 19:22:40"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 39.9, "reply_chars": 44, "chars": 14185, "tokens": 3550, "ts": "2026-11-05 19:23:37"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 32.4, "reply_chars": 21, "chars": 14960, "tokens": 3744, "ts": "2026-11-05 19:24:28"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 37.1, "reply_chars": 22, "chars": 15632, "tokens": 3912, "ts": "2026-11-05 19:25:23"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 55.7, "reply_chars": 22, "chars": 15716, "tokens": 3933, "ts": "2026-11-05 19:26:39"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 43.6, "reply_chars": 22, "chars": 15697, "tokens": 3928, "ts": "2026-11-05 19:27:40"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 45.2, "reply_chars": 22, "chars": 15785, "tokens": 3950, "ts": "2026-11-05 19:28:44"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 43.8, "reply_chars": 45, "chars": 15785, "tokens": 3950, "ts": "2026-11-05 19:29:46"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 15.3, "reply_chars": 1160, "chars": 1260, "tokens": 319, "ts": "2026-11-05 19:30:15"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 42.5, "reply_chars": 21, "chars": 13466, "tokens": 3370, "ts": "2026-11-05 19:31:38"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 47.5, "reply_chars": 23, "chars": 13585, "tokens": 3400, "ts": "2026-11-05 19:33:18"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 33.4, "reply_chars": 23, "chars": 14380, "tokens": 3599, "ts": "2026-11-05 19:34:41"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 38.0, "reply_chars": 23, "chars": 15128, "tokens": 3786, "ts": "2026-11-05 19:36:11"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 42.4, "reply_chars": 46, "chars": 15876, "tokens": 3973, "ts": "2026-11-05 19:37:47"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 25.2, "reply_chars": 68, "chars": 12551, "tokens": 3141, "ts": "2026-11-05 19:39:05"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 28.6, "reply_chars": 68, "chars": 13311, "tokens": 3331, "ts": "2026-11-05 19:40:28"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 31.4, "reply_chars": 68, "chars": 13957, "tokens": 3493, "ts": "2026-11-05 19:41:51"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 26.9, "reply_chars": 68, "chars": 12551, "tokens": 3141, "ts": "2026-11-05 19:43:42"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 28.7, "reply_chars": 292, "chars": 10978, "tokens": 2748, "ts": "2026-11-05 20:06:07"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 46.6, "reply_chars": 537, "chars": 11295, "tokens": 2827, "ts": "2026-11-05 20:07:03"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 27.5, "reply_chars": 294, "chars": 11295, "tokens": 2827, "ts": "2026-11-05 20:07:41"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 28.7, "reply_chars": 231, "chars": 11295, "tokens": 2827, "ts": "2026-11-05 20:08:19"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 32.9, "reply_chars": 232, "chars": 11295, "tokens": 2827, "ts": "2026-11-05 20:09:02"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 34.1, "reply_chars": 287, "chars": 11295, "tokens": 2827, "ts": "2026-11-05 20:09:46"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 37.1, "reply_chars": 232, "chars": 11295, "tokens": 2827, "ts": "2026-11-05 20:10:33"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 33.5, "reply_chars": 293, "chars": 11295, "tokens": 2827, "ts": "2026-11-05 20:11:19"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 10.4, "reply_chars": 78, "chars": 1195, "tokens": 302, "ts": "2026-11-05 20:11:42"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 29.4, "reply_chars": 243, "chars": 10978, "tokens": 2748, "ts": "2026-11-05 20:12:49"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 31.9, "reply_chars": 237, "chars": 11155, "tokens": 2792, "ts": "2026-11-05 20:13:31"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 34.6, "reply_chars": 557, "chars": 10938, "tokens": 2738, "ts": "2026-11-05 20:17:23"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 32.5, "reply_chars": 24, "chars": 10728, "tokens": 2686, "ts": "2026-11-05 20:28:39"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 32.4, "reply_chars": 23, "chars": 10728, "tokens": 2686, "ts": "2026-11-05 20:38:33"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 35.7, "reply_chars": 23, "chars": 10728, "tokens": 2686, "ts": "2026-11-05 21:01:42"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 39.1, "reply_chars": 24, "chars": 10728, "tokens": 2686, "ts": "2026-11-05 21:10:27"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 32.8, "reply_chars": 49, "chars": 12709, "tokens": 3181, "ts": "2026-11-05 21:48:42"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 33.0, "reply_chars": 35, "chars": 13530, "tokens": 3386, "ts": "2026-11-05 22:20:21"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 26.9, "reply_chars": 50, "chars": 12709, "tokens": 3181, "ts": "2026-11-05 22:36:28"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 23.7, "reply_chars": 24, "chars": 12679, "tokens": 3173, "ts": "2026-11-05 23:05:37"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 35.6, "reply_chars": 48, "chars": 13027, "tokens": 3260, "ts": "2026-11-05 23:35:35"}
+{"route": "chatgpt", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "secs": 31.9, "reply_chars": 49, "chars": 13856, "tokens": 3468, "ts": "2026-11-05 23:38:09"}
+{"route": "retry", "attempt": 1, "of": 3, "why": "chatgpt server dropped the connection: timed out", "wait_s": 45.0, "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "chars": 14639, "tokens": 3663, "ts": "2026-11-05 23:48:24"}
+{"route": "retry", "attempt": 2, "of": 3, "why": "chatgpt server dropped the connection: timed out", "wait_s": 45.0, "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "chars": 14639, "tokens": 3663, "ts": "2026-11-05 23:59:09"}
+{"route": "standard", "why": "chatgpt failed after 3 attempts: chatgpt server dropped the connection: timed out", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "chars": 14639, "tokens": 3663, "ts": "2026-11-06 00:09:58"}
+{"route": "standard", "why": "chatgpt paused 35s more after a failure", "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "chars": 15426, "tokens": 3860, "ts": "2026-11-06 00:10:49"}
+{"route": "retry", "attempt": 1, "of": 3, "why": "chatgpt server dropped the connection: timed out", "wait_s": 45.0, "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "chars": 13027, "tokens": 3260, "ts": "2026-11-06 00:25:37"}
+{"route": "retry", "attempt": 1, "of": 3, "why": "chatgpt server dropped the connection: timed out", "wait_s": 45.0, "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "chars": 13027, "tokens": 3260, "ts": "2026-11-06 00:45:55"}
+{"route": "retry", "attempt": 2, "of": 3, "why": "chatgpt server dropped the connection: timed out", "wait_s": 45.0, "node": "p40/gemma4:26b-a4b-it-mtp-q4_K_M", "chars": 13027, "tokens": 3260, "ts": "2026-11-06 00:56:40"}

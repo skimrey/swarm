@@ -1,0 +1,7 @@
+running lru
+  PASS  45s  469 tok  finish=stop  
+running duration
+  PASS  129s  1560 tok  finish=stop  
+running intervals
+  PASS  44s  370 tok  finish=stop  
+running calc

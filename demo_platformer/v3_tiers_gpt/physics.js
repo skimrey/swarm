@@ -1,0 +1,168 @@
+const TILE = 32;
+
+// Five tiers, one per band of 8 seeds (seeds 0-7 are tier 0 ... seeds 32-39 are tier 4). The player runs faster and
+// jumps higher in later tiers, so later levels can ask for longer leaps and taller climbs on smaller platforms.
+// check_game.js TIER_SPEED / TIER_JUMP / TIER_RISE / TIER_REACH are measured from these numbers: change them together.
+const GRAVITY = 0.5;
+const TIERS = [
+  { speed: 3.0, jump: -9.0 },
+  { speed: 3.5, jump: -10.0 },
+  { speed: 4.0, jump: -10.5 },
+  { speed: 4.5, jump: -11.0 },
+  { speed: 5.0, jump: -11.5 }
+];
+function tierOf(seed) {
+  return Math.min(TIERS.length - 1, Math.max(0, Math.floor(seed / 8)));
+}
+
+/**
+ * Creates the initial state for the game.
+ * @param {string[]} level - The level map.
+ * @returns {object} The initial game state.
+ */
+function createState(level, tier) {
+  let startX = 0;
+  let startY = 0;
+  let found = false;
+
+  for (let r = 0; r < level.length; r++) {
+    for (let c = 0; c < level[r].length; c++) {
+      if (level[r][c] === 'S') {
+        startX = c * TILE;
+        startY = r * TILE;
+        found = true;
+        break;
+      }
+    }
+    if (found) break;
+  }
+
+  return {
+    x: startX,
+    y: startY,
+    vx: 0,
+    vy: 0,
+    w: 20,
+    h: 20,
+    won: false,
+    tier: tier || 0,
+    level: level
+  };
+}
+
+/**
+ * Applies one frame of physics to the game state.
+ * @param {object} state - The current game state.
+ * @param {object} input - The user input {left, right, jump}.
+ * @returns {object} The new game state.
+ */
+function step(state, input) {
+  const tier = TIERS[state.tier || 0] || TIERS[0];
+  const gravity = GRAVITY;
+  const moveSpeed = tier.speed;
+  const jumpStrength = tier.jump;
+  const level = state.level;
+
+  let newState = { ...state };
+
+  const isColliding = (px, py, pw, ph) => {
+    for (let r = 0; r < level.length; r++) {
+      for (let c = 0; c < level[r].length; c++) {
+        if (level[r][c] === '#') {
+          const tx = c * TILE;
+          const ty = r * TILE;
+          if (px < tx + TILE && px + pw > tx && py < ty + TILE && py + ph > ty) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  };
+
+  // Horizontal movement
+  if (input.left) {
+    newState.vx = -moveSpeed;
+  } else if (input.right) {
+    newState.vx = moveSpeed;
+  } else {
+    newState.vx = 0;
+  }
+
+  // Vertical movement (Gravity)
+  newState.vy += gravity;
+
+  // Grounded check for jumping
+  const checkGrounded = (px, py, pw, ph) => {
+    const feetY = py + ph + 0.1;
+    for (let r = 0; r < level.length; r++) {
+      for (let c = 0; c < level[r].length; c++) {
+        if (level[r][c] === '#') {
+          const tx = c * TILE;
+          const ty = r * TILE;
+          if (px < tx + TILE && px + pw > tx && feetY >= ty && feetY <= ty + TILE) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  };
+
+  const grounded = checkGrounded(state.x, state.y, state.w, state.h);
+
+  if (input.jump && grounded) {
+    newState.vy = jumpStrength;
+  }
+
+  // X-axis resolution
+  let nextX = state.x + newState.vx;
+  if (!isColliding(nextX, state.y, newState.w, newState.h)) {
+    newState.x = nextX;
+  } else {
+    newState.vx = 0;
+  }
+
+  // Y-axis resolution
+  let nextY = state.y + newState.vy;
+  if (!isColliding(newState.x, nextY, newState.w, newState.h)) {
+    newState.y = nextY;
+  } else {
+    if (newState.vy > 0) {
+      // Falling: snap to top of tile
+      newState.y = Math.floor((nextY + newState.h) / TILE) * TILE - newState.h;
+    } else {
+      // Jumping up: snap to bottom of tile
+      newState.y = Math.ceil(nextY / TILE) * TILE;
+    }
+    newState.vy = 0;
+  }
+
+  // Goal detection
+  for (let r = 0; r < level.length; r++) {
+    for (let c = 0; c < level[r].length; c++) {
+      if (level[r][c] === 'G') {
+        const gx = c * TILE;
+        const gy = r * TILE;
+        if (
+          newState.x < gx + TILE &&
+          newState.x + newState.w > gx &&
+          newState.y < gy + TILE &&
+          newState.y + newState.h > gy
+        ) {
+          newState.won = true;
+        }
+      }
+    }
+  }
+
+  return newState;
+}
+
+module.exports = {
+  TILE,
+  createState,
+  step,
+  TIERS,
+  tierOf
+};

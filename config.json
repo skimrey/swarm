@@ -1,0 +1,250 @@
+{
+  "nodes": [
+    {
+      "name": "mac",
+      "url": "http://127.0.0.1:11434",
+      "os": "macos",
+      "models": [
+        "gemma4:e4b"
+      ],
+      "bias": 0.6,
+      "single_slot": true,
+      "model_bias": {
+        "gemma4:e4b": 2.0
+      },
+      "max_parallel": 1,
+      "pin_ctx": 32768,
+      "enabled": true,
+      "notes": "M5 MacBook Pro, 16GB unified. This is the machine the operator actually works on; inference here was previously observed to make the desktop stutter and once froze it hard, so it was disabled as a worker for a long stretch. Re-enabled on request, e4b only -- e2b was dropped from the list because e2b-2 already covers that tier on the LAN, and 12b was dropped outright rather than kept at a near-zero bias, since a dead bias entry for a model this node no longer lists is just something to misread later. Unified memory is the reason for the caution -- there is no separate VRAM to isolate a model in, so a resident model competes directly with the editor and browser for the same 16GB. e4b uses per-layer embeddings, so its resident footprint tracks effective parameters (4.5B) rather than the on-disk artifact size. model_bias 2.0 on gemma4:e4b is a deliberate priority override, not a throughput claim -- measured median decode is ~28-30 tok/s here against e4b-linux's ~38-43, so mac is genuinely the slower box; the bias is there because it was asked to win claim races against e4b-linux anyway, on `team.py run_components`'s scheduler (not `swarm.py`'s own routing, which does not consult model_bias at all). If the desktop stutters or freezes again, drop this node back to \"enabled\": false first -- that is a one-line revert with no other side effects."
+    },
+    {
+      "name": "mac2",
+      "url": "http://127.0.0.1:11435",
+      "os": "macos",
+      "models": [
+        "gemma4:e4b"
+      ],
+      "bias": 0.6,
+      "single_slot": true,
+      "model_bias": {
+        "gemma4:e4b": 2.0
+      },
+      "max_parallel": 1,
+      "pin_ctx": 32768,
+      "enabled": true,
+      "notes": "Same M5 MacBook Pro as `mac`, second independent Ollama server on port 11435 (separate launchd LaunchAgent, ~/Library/LaunchAgents/com.local.ollama2.plist, OLLAMA_HOST=0.0.0.0:11435, OLLAMA_KEEP_ALIVE=-1 -- pinned resident forever, unlike `mac`'s own short timeout, because this instance only exists to hold one chain-request's worth of small context at a time and reloading it defeats the point). Weights are NOT shared with `mac` -- two full separate processes, so this is a real, additive ~3.2GB resident cost on top of whatever `mac` itself is holding, confirmed via `ollama ps` against this port. Only safe because real per-call prompts on this tier stay small (a few thousand tokens, per this project's own measured call sizes) -- if either instance's context grows toward its max_ctx ceiling this stops being cheap. Same model_bias/bias as `mac` since it is the identical hardware and model; if the desktop stutters or freezes, bring this one down first (`launchctl bootout gui/$(id -u)/com.local.ollama2`) before touching `mac`, since it is the newer, less-tested half of the pair."
+    },
+    {
+      "name": "e4b-linux",
+      "url": "http://10.0.0.130:11434",
+      "os": "linux",
+      "models": [
+        "4skl/gemma4-e4b-mtp:latest"
+      ],
+      "bias": 1.2,
+      "single_slot": true,
+      "model_bias": {},
+      "max_parallel": 1,
+      "pin_ctx": 65536,
+      "enabled": true,
+      "notes": "Linux box, AMD RX 6600 XT (gfx1032, RDNA2, not on AMD's official ROCm support list). Ollama was silently running the Vulkan backend, which crashed with 'invalid pointer' on any prompt over ~1000 tokens -- confirmed via a 5-point crash ladder, reproduced across two different GGUFs and both stock and hand-fixed chat templates, so it was the backend, not the model file. Fixed by installing rocm-hip-runtime and setting HSA_OVERRIDE_GFX_VERSION=10.3.0 (present gfx1032 as gfx1030, which is supported) via a systemd override, forcing the ROCm/HIP backend instead of Vulkan. Same ladder now passes clean at all five sizes. Switched 2026-10-02 from gemma4-e4b-fixed:latest to 4skl/gemma4-e4b-mtp:latest (deliberate, operator-confirmed) -- an MTP (multi-token-prediction) variant, same 7.5B/131072 ctx as the old tag but Q4_0 instead of Q4_K_M. Measured cold: 33.4s load, 60.3 tok/s decode (40-token sample, think=False) vs the old tag's steady ~41 tok/s -- a real speedup, not a hint-only guess. gemma4-e4b-fixed:latest is still pulled on this box (unused, no longer in `models` above) in case the swap needs reverting; removed its entry from the `models` block below rather than leaving it pinned at a dead bias for a tag nothing here references anymore. max_parallel left at 1: the earlier two-concurrent-requests crash predates the ROCm fix and was never retested; worth a dedicated concurrency test before raising it."
+    },
+    {
+      "name": "g26b",
+      "url": "http://10.0.0.190:11434",
+      "os": "windows",
+      "models": [
+        "gemma4-fixed:latest",
+        "gemma4:12b",
+        "gemma4:26b-a4b-it-mtp-q4_K_M"
+      ],
+      "bias": 1.0,
+      "single_slot": true,
+      "model_bias": {
+        "gemma4-fixed:latest": 0.3,
+        "gemma4:12b": 0.3
+      },
+      "max_parallel": 1,
+      "enabled": false,
+      "notes": "The 4070 box, and the only machine that can write hard components. gemma4:26b-a4b-it-mtp-q4_K_M is now the default floor-4 writer: an MoE variant of the user's 26b with ~4B active parameters per token, measured at 32.4 tok/s decode (51-token sample, think=False) against gemma4:12b's 42.7 and the old gemma4-fixed dense-attention 26b's 13.2. That is most of the 12b's speed at 26B parameters instead of 12B, so it displaces the 12b as the routine choice the same way the 12b once displaced gemma4-fixed. Both other models are pinned to 0.3 rather than removed: available as a deliberate fallback, excluded from routine selection. Cold load measured at 41.5s, in the same range as this box's other models. Quality is not yet independently measured on a hard component the way the 12b-vs-26b comparison was -- one sample, a short factual answer, not a claim about code generation specifically. They cannot be resident together (single_slot), so whichever is preferred effectively owns the box."
+    },
+    {
+      "name": "p40",
+      "url": "http://10.0.0.178:11434",
+      "os": "linux",
+      "models": [
+        "gemma4:26b-a4b-it-mtp-q4_K_M"
+      ],
+      "bias": 1.2,
+      "single_slot": true,
+      "model_bias": {},
+      "max_ctx": 262144,
+      "max_parallel": 1,
+      "pin_ctx": 32768,
+      "cooldown_s": 30,
+      "enabled": true,
+      "sample": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "top_k": 20,
+        "min_p": 0
+      },
+      "think_budget": 16384,
+      "think_budget_message": "Thinking budget reached. Stop deliberating and commit to your best answer or next action now.",
+      "notes": "Tesla P40, 24GB, Linux, Ollama 0.40.3 (added 2026-10-11). Sampling on thinking requests is temperature 1, top_p 0.95, top_k 20, min_p 0, because greedy decoding makes this model loop. Ollama has no reasoning-budget flag, so think_budget (16384, the high-effort cap) is enforced on the request and one follow-up asks for the answer. Measured cold at num_ctx 262144: 71.2s load, 61.1 tok/s decode (150-token sample, think=False) -- about twice g26b's 32.4. Node-level max_ctx pins the ceiling at 262144 (the model's native limit). That is a ceiling only: pick_num_ctx still sizes each call to its prompt, and team.py run pins one size per node per run. To make a bigger default stick, set OLLAMA_CONTEXT_LENGTH and OLLAMA_KEEP_ALIVE=-1 in the Ollama service on the box itself. /api/ps reported only ~1.8GB total for a 26B model, so its memory figures are unreliable here; do not size anything from them. No 4096-ctx baseline was measured, so the cost of the big window is unknown. pin_ctx lowered 262144 -> 32768 on 2026-11-01: every plan was forced to the native window, and the runner quit during that silent prompt read, dropping the client socket. max_ctx stays 262144 so a request that needs more can still grow. cooldown_s raised 12 -> 30 on 2026-11-03: the card was running near its maximum temperature."
+    },
+    {
+      "name": "e2b-2",
+      "url": "http://10.0.0.31:11434",
+      "os": "windows",
+      "models": [
+        "gemma4:e2b"
+      ],
+      "bias": 0.7,
+      "single_slot": true,
+      "model_bias": {},
+      "max_parallel": 1,
+      "pin_ctx": 32768,
+      "enabled": true,
+      "notes": "Old Windows box, GTX 1050 Ti 8GB + old laptop CPU. gemma4:e2b only, capability 2 so it takes FLOOR 2 boilerplate alongside e4b-linux; at capability 1 it was unreachable, because the planner only ever emits floor 2 or 4. It is ~4x slower than e4b-linux, which the throughput-aware claim loop handles by keeping it off the critical path rather than by excluding it. qwen3.5:2b was removed after evaluation: comparable speed on this box (8.5s vs 9.2s per critique) but it flagged 2/2 correct answers as MAJOR errors, with incorrect reasoning, and every MAJOR triggers an escalation to the 26b. An unreliable critic costs more than no critic."
+    }
+  ],
+  "models": {
+    "gemma4:e2b": {
+      "capability": 2,
+      "quality": 0.6,
+      "max_ctx": 32768,
+      "//decode_tps_hint": "was 60, inherited from when this tag ran on mac (measured ~53 there, still in state.db as stale historical rows). It now runs exclusively on e2b-2, whose old laptop GPU+CPU measures 20-25 tok/s in state.db's real perf samples -- a hint this far off only matters before real samples exist (state.throughput overrides it once measured), but a stale prior this large still misprices the very first cold request on this node. Recalibrated 2026-09-21 from state.db median.",
+      "decode_tps_hint": 21,
+      "family": "gemma",
+      "thinking_tokens": 600
+    },
+    "gemma4:e4b": {
+      "capability": 2,
+      "//capability": "Reverted 4->2 on 2026-11-01. The 2026-09-20 speed test left this at 4, and pick_solvers plus the hedge then treated it as a floor-4 writer. A hard file (demo_platformer level.js) was won by this model over the 26b. Floor-4 stays on the 26b; this model is eligible again only as the below-floor fallback when nothing at the floor answers.",
+      "quality": 0.72,
+      "max_ctx": 131072,
+      "decode_tps_hint": 40,
+      "family": "gemma",
+      "thinking_tokens": 600
+    },
+    "gemma4:12b": {
+      "capability": 4,
+      "quality": 0.9,
+      "max_ctx": 65536,
+      "decode_tps_hint": 42,
+      "family": "gemma",
+      "thinking_tokens": 1200
+    },
+    "gemma4:26b": {
+      "capability": 4,
+      "quality": 1.0,
+      "max_ctx": 65536,
+      "decode_tps_hint": 12,
+      "family": "gemma",
+      "thinking_tokens": 1800
+    },
+    "gemma4-fixed:latest": {
+      "capability": 4,
+      "quality": 1.0,
+      "max_ctx": 65536,
+      "decode_tps_hint": 12,
+      "family": "gemma",
+      "thinking_tokens": 1800
+    },
+    "4skl/gemma4-e4b-mtp:latest": {
+      "capability": 2,
+      "//capability": "Reverted 4->2 on 2026-11-01, same as gemma4:e4b. The 2026-09-20 raise was carried onto this tag on 2026-10-02 and made e4b-linux a floor-4 writer. It was taking level.js while the P40 26b only planned.",
+      "quality": 0.72,
+      "max_ctx": 131072,
+      "decode_tps_hint": 60,
+      "family": "gemma",
+      "thinking_tokens": 600,
+      "//decode_tps_hint": "measured 2026-10-02, cold load: 60.3 tok/s (40-token sample, think=False) -- real measurement, not carried over from the old tag's 40. quality left at the old tag's 0.72 pending a real quality comparison; this is an MTP speed variant, not yet checked for a quality regression the way the 26b-a4b-it-mtp swap on g26b was."
+    },
+    "gemma4:26b-a4b-it-mtp-q4_K_M": {
+      "capability": 4,
+      "quality": 0.97,
+      "max_ctx": 262144,
+      "decode_tps_hint": 32,
+      "family": "gemma",
+      "thinking_tokens": 1500
+    }
+  },
+  "//env_names": "Names generated code reads for configuration and credentials. Pool-wide on purpose: a name derived from whichever files a directory happens to contain is a different name in every new project. Change here and every project follows.",
+  "env_names": [
+    "API_BASE_URL",
+    "API_KEY"
+  ],
+  "routing": {
+    "speed_weight": 1.1,
+    "quality_weight": 1.0,
+    "max_escalations": 1,
+    "classifier_model": "gemma4:e2b",
+    "classifier_timeout_s": 8,
+    "ambiguous_band": [
+      0.35,
+      0.65
+    ],
+    "default_output_tokens": 400,
+    "ctx_slack_tokens": 512,
+    "ctx_granularity": 1024,
+    "cold_start_penalty_s": 6.0,
+    "stale_lease_s": 900,
+    "speed_weight_by_tier": [
+      2.0,
+      1.5,
+      1.0,
+      0.3
+    ],
+    "quality_weight_by_tier": [
+      0.5,
+      0.8,
+      1.2,
+      3.0
+    ],
+    "tier_floor": [
+      1,
+      1,
+      2,
+      4
+    ],
+    "warm_window_s": 300,
+    "reasoning_reserve_tokens": 900,
+    "think_by_tier": [
+      false,
+      false,
+      true,
+      true
+    ]
+  },
+  "context": {
+    "enabled": true,
+    "budget_fraction": 0.25,
+    "max_cards": 12,
+    "min_score": 4.0,
+    "standing_policy": true
+  },
+  "team": {
+    "primary_family": "gemma",
+    "critic_prefers_other_family": false,
+    "warm_first_use": true,
+    "reduce_floor": 4,
+    "critic_floor": 2,
+    "escalate_on": [
+      "MAJOR"
+    ],
+    "max_parallel_total": 6,
+    "unmeasured_penalty": 1.5,
+    "overkill_penalty": 1.4,
+    "cross_check": "independent",
+    "thinking_tokens": 700,
+    "judge_floor": 4,
+    "verdicts_use_reasoning": false,
+    "restrict_to_family": "gemma",
+    "judge_model": [
+      "gemma4:26b-a4b-it-mtp-q4_K_M",
+      "gemma4-fixed:latest"
+    ]
+  }
+}

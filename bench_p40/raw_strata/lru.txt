@@ -1,0 +1,49 @@
+## thinking
+We need answer user wants code only in one python code block. Need produce final with only code block. Need implement LRUCache standard library only. Need likely class LRUCache: __init__(self, capacity: int), get, put. O(1). Capacity 0 stores nothing. Could use collections.OrderedDict (standard library) or dict + doubly linked list. Simpler OrderedDict. Need ensure move_to_end. For capacity 0, put does nothing, get returns -1. If capacity negative? Spec capacity 0 stores nothing; maybe if <=0. Use OrderedDict. Code:
+from collections import OrderedDict
+class LRUCache:
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.cache = OrderedDict()
+    def get(self, key: int) -> int:
+        if key not in self.cache: return -1
+        self.cache.move_to_end(key)
+        return self.cache[key]
+    def put(self, key: int, value: int) -> None:
+        if self.capacity <= 0: return
+        if key in self.cache:
+            self.cache.move_to_end(key)
+        self.cache[key] = value
+        if len(self.cache) > self.capacity:
+            self.cache.popitem(last=False)
+Need maybe type hints not necessary. Standard library only. Could avoid import? OrderedDict is stdlib. Good.
+Need final only code block. Ensure no tests.
+
+
+## answer
+```python
+from collections import OrderedDict
+
+class LRUCache:
+    def __init__(self, capacity: int) -> None:
+        self.capacity = capacity
+        self.cache = OrderedDict()
+
+    def get(self, key: int) -> int:
+        if key not in self.cache:
+            return -1
+        self.cache.move_to_end(key)
+        return self.cache[key]
+
+    def put(self, key: int, value: int) -> None:
+        if self.capacity <= 0:
+            return
+
+        if key in self.cache:
+            self.cache.move_to_end(key)
+
+        self.cache[key] = value
+
+        if len(self.cache) > self.capacity:
+            self.cache.popitem(last=False)
+```

@@ -1,0 +1,30 @@
+{
+ "//": "The order the check really runs its gates in; a line matching an earlier entry is an earlier gate. Lines matching none come after, in the order they appear in the check's text.",
+ "gates": [
+  "cannot load|threw|returned .* rows|returned .*not an array|row \\d+ is|row \\d+ has length|uses the characters|has \\d+ S and|open '\\.' cells|'#' cells, fewer",
+  "S at column|G at column",
+  "is not completable",
+  "has \\d+ platforms \\(a platform",
+  "cells long on row",
+  "one-cell pillars",
+  "platforms within \\d+ rows|has its platforms within",
+  "kind of jump|kinds of jump",
+  "off the route that lead nowhere",
+  "places to choose",
+  "dead-end branches that look",
+  "has an obvious path"
+ ],
+ "hard": [
+  "cannot load|threw|returned .* rows|returned .*not an array|row \\d+ is|row \\d+ has length|uses the characters|has \\d+ S and|open '\\.' cells|'#' cells, fewer",
+  "S at column|G at column",
+  "is not completable",
+  "cannot be finished with the real jump",
+  "too few solid cells",
+  "is the same level as"
+ ],
+ "advisory_rounds": 2,
+ "//hard": "hard: failures that always block (invalid, cannot be finished, a duplicate). Every other failing line is advisory once a slot has stalled advisory_rounds full rounds; it is then accepted and the check prints it as ADVISORY.",
+ "rework_rounds": 2,
+ "//rework": "rework_rounds: stalled rounds a reworked slot may take before it is accepted again as it is.",
+ "round_attempts": 10
+}

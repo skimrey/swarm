@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platformer Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #1a1a2e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Arial', sans-serif;
+        }
+        canvas {
+            background: #111;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+            image-rendering: pixelated;
+        }
+        #ui {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            color: #e0e0ff;
+            pointer-events: none;
+            text-shadow: 1px 1px 3px #000;
+        }
+        #hint {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffcc00;
+            font-size: 1.1rem;
+            text-shadow: 0 0 5px #ffcc00;
+        }
+        #overlay {
+            position: absolute;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+        #overlay h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #4CAF50;
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            background: #3f51b5;
+            border: none;
+            color: white;
+            border-radius: 8px;
+            margin: 10px;
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 4px #2c3e50;
+        }
+        button:hover {
+            background: #5c6bc0;
+        }
+        button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px #2c3e50;
+        }
+        #restartBtn {
+            background: #4CAF50;
+            box-shadow: 0 4px #388e3c;
+        }
+        #restartBtn:active {
+            box-shadow: 0 2px #388e3c;
+        }
+        #nextSeedBtn {
+            background: #2196F3;
+            box-shadow: 0 4px #1e88e5;
+        }
+        #nextSeedBtn:active {
+            box-shadow: 0 2px #1e88e5;
+        }
+    </style>
+</head>
+<body>
+    <div id="ui">Use WASD, Arrows, or Space to move</div>
+    <div id="hint">Reach the Goal (G)!</div>
+    <canvas id="gameCanvas"></canvas>
+    <div id="overlay">
+        <h1 id="statusText">Level Complete!</h1>
+        <button id="restartBtn">Play Again</button>
+        <button id="nextSeedBtn">Next Seed</button>
+    </div>
+
+    <script>
+        var module = { exports: {} };
+        var exports = module.exports;
+    </script>
+    <script src="level.js"></script>
+    <script>
+        var levelExports = module.exports;
+        module = { exports: {} };
+        exports = module.exports;
+    </script>
+    <script src="physics.js"></script>
+    <script>
+        var physicsExports = module.exports;
+    </script>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const overlay = document.getElementById('overlay');
+        const statusText = document.getElementById('statusText');
+        const restartBtn = document.getElementById('restartBtn');
+        const nextSeedBtn = document.getElementById('nextSeedBtn');
+
+        let gameState = null;
+        let startTime = Date.now();
+        let keys = { left: false, right: false, jump: false };
+        let currentSeed = 0;
+        let camera = { x: 0, y: 0 };
+        let unitData = { seed: 0, width: 60, height: 20 };
+
+        function wrapSeed() {
+            const found = levelExports.generateLevel(currentSeed);
+            if (!found || found.length === 0) currentSeed = 0;
+        }
+
+        function initGame(data) {
+            const seed = data.seed !== undefined ? data.seed : currentSeed;
+            const width = data.width !== undefined ? data.width : 60;
+            const height = data.height !== undefined ? data.height : 20;
+            
+            try {
+                const levelGrid = levelExports.generateLevel(seed, width, height);
+                gameState = physicsExports.createState(levelGrid);
+                
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                
+                overlay.style.display = 'none';
+            } catch (e) {
+                console.error("Failed to initialize game:", e);
+                statusText.textContent = "Error loading level.";
+                overlay.style.display = 'flex';
+            }
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'ArrowLeft' || e.code === 'KeyA') keys.left = true;
+            if (e.code === 'ArrowRight' || e.code === 'KeyD') keys.right = true;
+            if (e.code === 'ArrowUp' || e.code === 'KeyW' || e.code === 'Space') keys.jump = true;
+            
+            if (e.code === 'KeyN') {
+                currentSeed = currentSeed + 1; wrapSeed();
+                unitData = { seed: currentSeed, width: 60, height: 20 };
+                initGame(unitData);
+            }
+            if (e.code === 'KeyR') {
+                initGame(unitData);
+            }
+        });
+
+        window.addEventListener('keyup', (e) => {
+            if (e.code === 'ArrowLeft' || e.code === 'KeyA') keys.left = false;
+            if (e.code === 'ArrowRight' || e.code === 'KeyD') keys.right = false;
+            if (e.code === 'ArrowUp' || e.code === 'KeyW' || e.code === 'Space') keys.jump = false;
+        });
+
+        restartBtn.addEventListener('click', () => {
+            initGame(unitData);
+        });
+
+        nextSeedBtn.addEventListener('click', () => {
+            currentSeed = currentSeed + 1; wrapSeed();
+            unitData = { seed: currentSeed, width: 60, height: 20 };
+            initGame(unitData);
+        });
+
+        function draw() {
+            if (!gameState) return;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            camera.x = gameState.x - canvas.width / 2;
+            camera.y = gameState.y - canvas.height / 2;
+
+            ctx.save();
+            ctx.translate(-camera.x, -camera.y);
+
+            const level = gameState.level;
+            const TILE = physicsExports.TILE;
+
+            for (let y = 0; y < level.length; y++) {
+                const row = level[y];
+                for (let x = 0; x < row.length; x++) {
+                    const char = row[x];
+                    if (char === '.') continue;
+
+                    const tx = x * TILE;
+                    const ty = y * TILE;
+
+                    if (tx + TILE < camera.x || tx > camera.x + canvas.width ||
+                        ty + TILE < camera.y || ty > camera.y + canvas.height) {
+                        continue;
+                    }
+
+                    if (char === '#' || char === 'S') {
+                        ctx.fillStyle = '#555';
+                        ctx.fillRect(tx, ty, TILE, TILE);
+                        ctx.strokeStyle = '#333';
+                        ctx.strokeRect(tx, ty, TILE, TILE);
+                    } else if (char === 'G') {
+                        ctx.fillStyle = '#FFD700';
+                        ctx.fillRect(tx, ty, TILE, TILE);
+                        ctx.shadowBlur = 15;
+                        ctx.shadowColor = '#FFD700';
+                        ctx.strokeStyle = '#FFF';
+                        ctx.strokeRect(tx, ty, TILE, TILE);
+                        ctx.shadowBlur = 0;
+                    }
+                }
+            }
+
+            ctx.fillStyle = '#00AAFF';
+            ctx.fillRect(gameState.x, gameState.y, gameState.w, gameState.h);
+
+            ctx.restore();
+        }
+
+        function update() {
+            if (gameState && !gameState.won) {
+                gameState = physicsExports.step(gameState, keys);
+                
+                const TILE = physicsExports.TILE;
+                if (gameState.y > gameState.level.length * TILE + 500) {
+                    initGame(unitData);
+                }
+
+                if (gameState.won) {
+                    overlay.style.display = 'flex';
+                    statusText.textContent = "Level Complete!";
+                }
+            }
+        }
+
+        function loop() {
+            update();
+            draw();
+            requestAnimationFrame(loop);
+        }
+
+        window.postMessage({ type: 'APPLET_READY' }, '*');
+        
+        window.addEventListener('message', (event) => {
+            const { type, unit, prepopulate } = event.data;
+            if (type === 'UNIT_DATA') {
+                startTime = Date.now();
+                if (prepopulate && Object.keys(prepopulate).length > 0) {
+                    unitData = prepopulate;
+                    initGame(prepopulate);
+                } else {
+                    unitData = unit;
+                    initGame(unit);
+                }
+            } else if (type === 'ERROR') {
+                statusText.textContent = `Error: ${event.data.message}`;
+                overlay.style.display = 'flex';
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        loop();
+
+        setTimeout(() => {
+            if (!gameState) {
+                initGame(unitData);
+            }
+        }, 500);
+    </script>
+</body>
+</html>

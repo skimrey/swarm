@@ -1,0 +1,58 @@
+{
+ "basis": "You are designing one level of a platformer that people play for fun. A good level is a small journey the player wants to finish and then play again.\nWhat makes a level fun:\n- The player makes decisions. There are two or more ways to go, some of them dead ends or traps, so reading the level matters.\n- It asks for different moves: a quick hop, a long leap, a climb, a big drop. A level that asks for the same jump again and again is dull.\n- It has rhythm and shape: a run of similar jumps that sets a pattern, then a break in the pattern; a staircase, a pit, a tower, a bridge, floating islands.\n- It uses the whole screen, high and low, and you can see where the goal is from the start.\n- The risky way is shorter or higher, and the safe way is longer.\nWhat makes a level dull, and is rejected: a flat floor, one long slab, a row of identical steps, a corridor with a single path, or a few platforms with one bump.\nBefore the JSON, write one DESIGN line: the idea of this level in one or two sentences (its shape, its main decision, its trick). Then the platform list that builds it.\n\nHow the level is described. A program draws the grid from your list, so give coordinates only.\nThe level is 60 columns wide (col 0..59) and 20 rows tall (row 0 is the top, row 19 the bottom).\nA platform is a horizontal run of solid cells: [row, first_col, last_col]. Everything else is air.\nThe player stands on top of a platform. It jumps up at most 3 rows, crosses at most 4 empty columns in one jump, and can drop any height.\nSo from one platform to the next: the next top may be at most 3 rows higher, and the gap between them at most 4 columns. A route from start to goal must exist through such jumps.\n\"start\" and \"goal\" are [row, col] of the cell the player stands in; the cell under it must be on a platform (the program adds it if missing).\nThe check measures what makes a level good, so meet it in the first reply:\n- at least 8 separate platforms of 3 or more cells each (use 12 to 25), and at least 100 solid cells in total;\n- platforms are places to stand, not walls of floor: none longer than 30 cells, except on the last 3 rows (rows 17, 18, 19);\n- the platforms use the height: their rows span at least 8 rows from the highest to the lowest;\n- the shortest route from start to goal takes at least 4 jumps between different platforms, and uses at least 2 different kinds of move (hop, jump or long leap by columns crossed; up, level or down by height), so a shortcut that skips ahead counts against you;\n- there are choices: at least 3 platforms the shortest route never stands on, as side paths, dead ends and alternatives;\n- every jump on the route stays inside the limits above;\n- two levels written for different seeds must not be the same level.\nReply with the DESIGN line, then one JSON object: {\"platforms\": [[row, c0, c1], ...], \"start\": [row, col], \"goal\": [row, col]}\n\nHOW DIFFICULTY IS MEASURED:\nDifficulty of a level is one number: the hardest jump on the kindest route from start to goal, plus 0.001 for each jump on that route that is that hard.\nA jump costs max(columns crossed / 4, rows climbed / 3); a drop of any height costs 0. So the cost runs from 0.25 (a 1-column hop or 1-row step) to 1.0 (a 4-column gap or a 3-row climb), in steps of about 0.083.\nWhat raises difficulty: wider gaps, taller climbs, and a route with no easier alternative. What does not: more platforms, a taller level, decoys, or a longer route of easy jumps, because the kindest route is the one that counts.\nThe 40 levels must not get easier from seed to seed, and the last must be harder than the first.",
+ "theme": "engaging platformer levels with increasing jump difficulty",
+ "axes": [
+  [
+   "max jump column gap",
+   true,
+   [
+    "1 col",
+    "2 col",
+    "3 col",
+    "4 col"
+   ]
+  ],
+  [
+   "max jump row climb",
+   true,
+   [
+    "1 row",
+    "2 row",
+    "3 row"
+   ]
+  ],
+  [
+   "minimum jumps on kindest route",
+   true,
+   [
+    "4 jumps",
+    "5 jumps",
+    "6 jumps",
+    "7 jumps",
+    "8 jumps"
+   ]
+  ],
+  [
+   "level layout motif",
+   false,
+   [
+    "staircase",
+    "floating islands",
+    "bridge",
+    "pit",
+    "tower",
+    "zigzag"
+   ]
+  ],
+  [
+   "pathing style",
+   false,
+   [
+    "narrow corridor",
+    "wide open arena",
+    "vertical climb",
+    "winding path"
+   ]
+  ]
+ ]
+}

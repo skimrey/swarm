@@ -1,0 +1,44 @@
+{
+  "kind": "json-list",
+  "key": "platforms",
+  "refs": [
+    "start",
+    "goal"
+  ],
+  "fields": {
+    "row": 0,
+    "c0": 1,
+    "c1": 2
+  },
+  "part_name": "platform",
+  "item_format": "[row, first_col, last_col]",
+  "base": 0,
+  "max_parts": 3,
+  "locators": [
+    {
+      "regex": "is at column (?P<c0>\\d+) row (?P<row>\\d+): \\d+ rows? higher",
+      "row_offset": 1
+    },
+    {
+      "regex": "stops at column (?P<c0>\\d+) row (?P<row>\\d+)",
+      "row_offset": 1
+    },
+    {
+      "regex": "row (?P<row>\\d+) column (?P<c0>\\d+)",
+      "when": "stand alone",
+      "scope": "stand alone \\(([^)]*)\\)",
+      "row_offset": 1
+    },
+    {
+      "regex": "row (?P<row>\\d+)\\s*\\(columns (?P<c0>\\d+) to (?P<c1>\\d+)\\)"
+    },
+    {
+      "regex": "row (?P<row>\\d+) columns? (?P<c0>\\d+)(?: to (?P<c1>\\d+))?",
+      "unless": "stand alone|is at column|stops at column|the goal is at"
+    },
+    {
+      "regex": "goal is at column (?P<c0>\\d+) row (?P<row>\\d+)",
+      "row_offset": 1
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+## thinking
+We need answer user wants code only in one python code block. Need produce final with code block only. Need implement parse_duration(s)->int. Standard library only. Need validate: empty string ValueError. Format: sequence of number+unit, units d,h,m,s each at most once, descending order. Non-negative integer ASCII digits directly before unit. No spaces signs decimals bare numbers. Need raise ValueError for anything else.
+
+Need think about edge cases: "0d" allowed? non-negative integer, yes. "000" no unit invalid. "" invalid. "1d2h3m4s" valid. "1h30m" valid. "1d1d" invalid duplicate. "1h1d" invalid order. "1d2h3m4s5" invalid trailing number no unit. "1d2h3m4s" valid. "1d2h3m4s" units descending. Could use regex fullmatch: r'(?:0|[1-9]\d*)d?'? But need optional units in order each at most once. Regex: r'(?:(?:0|[1-9]\d*)d)?(?:(?:0|[1-9]\d*)h)?(?:(?:0|[1-9]\d*)m)?(?:(?:0|[1-9]\d*)s)?' but empty matches, need reject empty. Also need ensure at least one component. Could use regex with lookahead? Simpler parse manually.
+
+Manual: if not isinstance? Spec string? Could assume str. If not str maybe TypeError? Raise ValueError? It says for empty string or anything else does not match. Could if not isinstance(s, str): raise ValueError? But standard. Need ASCII digits only. Use str.isdigit? It accepts Unicode digits. Need ASCII digits. Use '0' <= c <= '9'.
+
+Algorithm:
+if not isinstance(s, str) or s == '': raise ValueError
+units = {'d':86400,...}
+order = ['d','h','m','s']
+i=0; total=0; last_unit_index=-1
+while i < len(s):
+  start=i
+  while i < len(s) and '0' <= s[i] <= '9': i++
+  if i == start: raise ValueError (missing digits)
+  digits = s[start:i]
+  if len(digits)>1 and digits[0]=='0'? Spec non-negative integer of ASCII digits. Does it allow leading zeros? "non-negative integer of ASCII digits" ambiguous. Usually integer may have leading zeros? It says ASCII digits directly before it. Could allow leading zeros. But if strict integer representation maybe no leading zeros? Need decide. "non-negative integer of ASCII digits" likely any digits, including leading zeros? But "integer" could allow 000? In duration strings like "01d" maybe? Spec doesn't forbid leading zeros. It says non-negative integer of ASCII digits. I think allow leading zeros. But if want canonical? Not specified. Better allow leading zeros because only says digits. But if "000d" valid? likely yes. If they expect regex [0-9]+. We'll allow.
+  if i == len(s): raise ValueError (bare number)
+  unit = s[i]
+  if unit not in units: raise ValueError
+  idx = order.index(unit)
+  if idx <= last_unit_index: raise ValueError (duplicate or wrong order)
+  total += int(digits)*units[unit]
+  last_unit_index = idx
+  i += 1
+return total
+
+Need ensure no other chars. This handles.
+
+Potential issue: if s contains non-ASCII digit like '١' not accepted because ASCII check. Good.
+
+Could use regex: fullmatch r'(?:(?:0|[1-9]\d*)d)?...' but leading zeros? If allow [0-9]+. Need at least one. Could use regex with optional groups and ensure not empty. But manual simpler.
+
+Need output only code block. No tests. Function only. Could include import? no.
+
+Need consider if s is not str: maybe raise ValueError? If s is None, len fails. Could do if not isinstance(s, str): raise ValueError. But spec says strings. Fine.
+
+Need maybe use re? standard library only but no need.
+
+Let's craft final:
+```python
+def parse_duration(s: str) -> int:
+    if not isinstance(s, str) or s == "":
+        raise ValueError("empty or invalid duration")
+    values = {"d": 86400, "h": 3600, "m": 60, "s": 1}
+    order = {"d": 0, "h": 1, "m": 2, "s": 3}
+    total = 0
+    last = -1
+    i = 0
+    n = len(s)
+    while i < n:
+        start = i
+        while i < n and "0" <= s[i] <= "9":
+            i += 1
+        if i == start:
+            raise ValueError("missing digits")
+        if i == n:
+            raise ValueError("missing unit")
+        unit = s[i]
+        if unit not in values:
+            raise ValueError("invalid unit")
+        idx = order[unit]
+        if idx <= last:
+            raise ValueError("invalid order or duplicate unit")
+        total += int(s[start:i]) * values[unit]
+        last = idx
+        i += 1
+    return total
+```
+
+Need ensure if s has invalid char after unit? loop continues, if next char not digit, start=i, while no digits, i==start raise. Good.
+
+Could there be plus sign? invalid. Decimal? '.' invalid. Negative? '-' invalid.
+
+Need maybe no type annotation? Spec def parse_duration(s) -> int. Use exactly? Could include annotation. Fine.
+
+Need final only code block. Ensure no extra text.
+
+
+## answer
+```python
+def parse_duration(s) -> int:
+    if not isinstance(s, str) or s == "":
+        raise ValueError("invalid duration")
+
+    values = {"d": 86400, "h": 3600, "m": 60, "s": 1}
+    order = {"d": 0, "h": 1, "m": 2, "s": 3}
+
+    total = 0
+    last_unit_index = -1
+    i = 0
+    n = len(s)
+
+    while i < n:
+        start = i
+
+        while i < n and "0" <= s[i] <= "9":
+            i += 1
+
+        if i == start:
+            raise ValueError("invalid duration")
+
+        if i == n:
+            raise ValueError("invalid duration")
+
+        unit = s[i]
+        if unit not in values:
+            raise ValueError("invalid duration")
+
+        unit_index = order[unit]
+        if unit_index <= last_unit_index:
+            raise ValueError("invalid duration")
+
+        total += int(s[start:i]) * values[unit]
+        last_unit_index = unit_index
+        i += 1
+
+    return total
+```

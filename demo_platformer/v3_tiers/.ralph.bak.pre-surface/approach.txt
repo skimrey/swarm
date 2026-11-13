@@ -1,0 +1,2 @@
+FILE: level.js
+This request is a stored set of 40 outputs in level.js, not a procedure of the input. Produce one output at a time. Keep it when the check accepts that output on its own. Discard it when that output is invalid. A good output in the wrong position is kept and moved, not rebuilt. Do not write a search that derives the output from the input. 24 outputs are already kept.

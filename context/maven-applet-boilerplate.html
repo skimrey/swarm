@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Applet Boilerplate</title>
+  <style>
+    /* ================================================================
+       BASE / LAYOUT -- generic, reused verbatim from the reference applet
+    ================================================================ */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; }
+    body { background: #f5f7fa; font-family: Arial, sans-serif; }
+    #main-form { display: flex; flex-direction: column; height: 100%; }
+    .form-panel {
+      flex: 1; overflow-y: auto; padding: 16px;
+      display: flex; flex-direction: column; gap: 16px; min-width: 0;
+    }
+    .section-box { border: 2px solid #dedede; border-radius: 8px; padding: 12px; background: #fff; }
+    .field-label { display: block; font-weight: 600; margin-bottom: 8px; color: #333; font-size: 14px; }
+    textarea.input-field, input.text-input {
+      width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 6px;
+      font-family: Arial, sans-serif; font-size: 14px; line-height: 1.5;
+    }
+    textarea.input-field { min-height: 100px; resize: vertical; }
+    textarea.input-field:focus, input.text-input:focus {
+      outline: none; border-color: #4a90d9; box-shadow: 0 0 0 2px rgba(74,144,217,0.2);
+    }
+    .btn {
+      padding: 10px 20px; border: none; border-radius: 6px; font-size: 14px;
+      font-weight: 600; cursor: pointer;
+    }
+    .btn-primary { background: #4a90d9; color: #fff; }
+    .btn-primary:disabled { background: #b3c9e0; cursor: not-allowed; }
+    #status-message { font-size: 13px; min-height: 18px; }
+    .loading-overlay {
+      position: fixed; inset: 0; background: #f5f7fa; display: none;
+      align-items: center; justify-content: center; font-size: 14px; color: #555; z-index: 10;
+    }
+    .loading-overlay.visible { display: flex; }
+    .rework-panel {
+      display: none; border: 2px solid #e0a53c; border-radius: 8px; padding: 12px;
+      background: #fff8ec;
+    }
+    .rework-panel.visible { display: block; }
+    .rework-panel__eyebrow { font-size: 11px; font-weight: 700; color: #b5791a; text-transform: uppercase; }
+    .rework-panel h2 { margin: 4px 0 8px; font-size: 15px; }
+    .rework-panel__instructions { font-size: 13px; color: #444; margin: 0; }
+    #qa-banner {
+      display: none; background: #eaf3ff; border: 1px solid #a9cbf0; border-radius: 6px;
+      padding: 8px 12px; font-size: 13px; color: #1c5a9c;
+    }
+  </style>
+</head>
+<body>
+  <div id="loading-overlay" class="loading-overlay visible">Loading unit&hellip;</div>
+
+  <div id="main-form" style="display:none;">
+    <div class="form-panel">
+      <div id="qa-banner">QA mode &mdash; reviewing a prior submission.</div>
+
+      <section id="rework-panel" class="rework-panel" aria-labelledby="rework-title">
+        <span class="rework-panel__eyebrow">Rework</span>
+        <h2 id="rework-title"></h2>
+        <p id="rework-instructions" class="rework-panel__instructions"></p>
+        <div id="rework-feedback-list"></div>
+      </section>
+
+      <!-- ============================================================
+           TASK-SPECIFIC FIELDS GO HERE.
+           This one generic field is a placeholder -- replace with
+           whatever inputs the real task needs (radios, checkboxes,
+           multiple text fields, etc.). Whatever you collect, make sure
+           buildCurrentOutput() below returns it as part of `output`.
+      ============================================================ -->
+      <div class="section-box">
+        <label class="field-label" for="response">Response</label>
+        <textarea id="response" class="input-field" placeholder="Annotator input goes here."></textarea>
+      </div>
+
+      <div id="status-message"></div>
+      <button type="button" class="btn btn-primary" id="submit-btn">Submit</button>
+    </div>
+  </div>
+
+  <script>
+    // ==========================================================================
+    // STATE
+    // ==========================================================================
+    var currentUnit = null;
+    var currentMode = 'annotation'; // 'annotation' | 'qa'
+    var startTime = null;
+    var stateUpdateTimer = null;
+
+    // ==========================================================================
+    // PLATFORM PROTOCOL -- generic, do not rename these message types.
+    // Verified against a real production applet (Oberon Image Caption
+    // Annotation v1.2): the harness (window.parent) speaks postMessage with
+    // these exact shapes. Everything else in this file is yours to build on.
+    //
+    //   OUT  APPLET_READY  -- sent once on load, no payload
+    //   IN   UNIT_DATA     -- { unit: { input_json, ... }, mode, prepopulate, qa_context }
+    //   OUT  STATE_UPDATE  -- { output } -- debounced, sent on every form change
+    //                          (lets the harness offer draft-save without you
+    //                          wiring that up yourself)
+    //   OUT  ERROR         -- { error, details } -- report a harness-facing
+    //                          problem (e.g. missing expected prior data)
+    //   OUT  SUBMIT        -- { output, timeSpentMs } -- final submission
+    // ==========================================================================
+
+    window.addEventListener('load', function () {
+      window.parent.postMessage({ type: 'APPLET_READY' }, '*');
+    });
+
+    window.addEventListener('message', function (event) {
+      if (!event.data || event.data.type !== 'UNIT_DATA') return;
+
+      currentUnit = event.data.unit || {};
+      currentMode = event.data.mode || 'annotation';
+      startTime = Date.now();
+
+      var inputJson = currentUnit.input_json || {};
+
+      // Generic rework/pre-fill gate. A payload can legitimately carry
+      // review_feedback + a prior draft even when this isn't a rework run,
+      // so gate strictly on an explicit `kind` rather than presence alone.
+      var reworkActive = isExplicitReworkFeedback(inputJson.review_feedback);
+      var workingOutput = null;
+
+      if (isNonEmptyObject(event.data.prepopulate)) {
+        // Harness explicitly handed us a draft/prior output to resume.
+        workingOutput = event.data.prepopulate;
+      } else if (currentMode === 'qa') {
+        var originalOutput = event.data.qa_context &&
+          event.data.qa_context.original_submission &&
+          event.data.qa_context.original_submission.output_json;
+        if (originalOutput) workingOutput = originalOutput;
+      } else if (reworkActive && isNonEmptyObject(inputJson.prior_annotation)) {
+        workingOutput = inputJson.prior_annotation;
+      }
+
+      initUI(inputJson, workingOutput, reworkActive);
+    });
+
+    function isNonEmptyObject(value) {
+      return !!value && typeof value === 'object' &&
+        !Array.isArray(value) && Object.keys(value).length > 0;
+    }
+
+    function isExplicitReworkFeedback(value) {
+      return isNonEmptyObject(value) && value.kind === 'rework';
+    }
+
+    // ==========================================================================
+    // INIT UI
+    // ==========================================================================
+    function initUI(inputJson, workingOutput, reworkActive) {
+      document.getElementById('loading-overlay').classList.remove('visible');
+      document.getElementById('main-form').style.display = 'flex';
+
+      document.getElementById('qa-banner').style.display =
+        currentMode === 'qa' ? 'block' : 'none';
+
+      renderReworkFeedback(reworkActive ? inputJson.review_feedback : null);
+
+      if (workingOutput) applyWorkingOutput(workingOutput);
+
+      bindEvents();
+    }
+
+    function renderReworkFeedback(feedback) {
+      var panel = document.getElementById('rework-panel');
+      var title = document.getElementById('rework-title');
+      var instructions = document.getElementById('rework-instructions');
+      var list = document.getElementById('rework-feedback-list');
+      list.replaceChildren();
+
+      if (!isExplicitReworkFeedback(feedback)) {
+        panel.classList.remove('visible');
+        return;
+      }
+      title.textContent = feedback.title || 'Revise the existing submission';
+      instructions.textContent = feedback.instructions ||
+        'Review every note below, correct the existing response, then resubmit.';
+
+      var items = Array.isArray(feedback.items) ? feedback.items : [];
+      items.forEach(function (item) {
+        if (!item || typeof item !== 'object') return;
+        var note = document.createElement('p');
+        note.textContent = item.reviewer_instruction || item.feedback_category ||
+          'Review and correct this item.';
+        list.appendChild(note);
+      });
+      panel.classList.add('visible');
+    }
+
+    // ==========================================================================
+    // TASK-SPECIFIC: read/write the form. Replace the body of both functions
+    // to match whatever fields you added above.
+    //
+    // IMPORTANT if any field is a custom widget (star rating, custom
+    // slider, toggle group, swatch picker -- anything that is not a plain
+    // <input>, <textarea>, <select>, or a real <input type="radio"/
+    // "checkbox">): bindEvents() below only listens for native `input`/
+    // `change` events bubbling up through #main-form. Those fire
+    // automatically for real form controls. They do NOT fire when a user
+    // clicks a <span>/<div> you built and styled yourself, no matter how
+    // correct the visual click handling looks -- the widget will appear to
+    // work (the stars fill in) and nothing will ever be saved. Two ways to
+    // make a custom widget actually save:
+    //   (a) BEST: build it out of real form elements. A star rating is a
+    //       row of `<input type="radio" name="foo" value="1">` ...
+    //       `value="5"` with <label> elements styled to look like stars
+    //       (hide the input with CSS, not the label). Clicking a label
+    //       fires a real `change` event bindEvents() already catches, and
+    //       buildCurrentOutput() reads it exactly like any other field:
+    //       `(document.querySelector('input[name="foo"]:checked') || {}).value`.
+    //   (b) If it truly cannot be a form element, call
+    //       scheduleStateUpdate() directly from the widget's own click
+    //       handler -- do not rely on bubbling -- and store its value
+    //       somewhere buildCurrentOutput() actually reads (a plain JS
+    //       variable, or a hidden input you keep in sync on every click).
+    //       Updating only a CSS class (`classList.add('selected')`)
+    //       changes what the user sees, not what gets submitted.
+    //
+    // If this task renders more than one instance of the same widget (one
+    // rating axis per item, one row per option), wire its listener with
+    // `document.querySelectorAll(theClass).forEach(el => ...)`, or
+    // delegate to a parent that exists before any instance is rendered.
+    // `document.querySelector(theClass)` (singular) silently binds only
+    // the first instance -- every later one renders identically and never
+    // responds to a click, with no error anywhere.
+    // ==========================================================================
+    function applyWorkingOutput(output) {
+      var el = document.getElementById('response');
+      if (el) el.value = output.response || '';
+    }
+
+    function buildCurrentOutput() {
+      return {
+        response: document.getElementById('response').value,
+      };
+    }
+
+    // ==========================================================================
+    // VALIDATION HOOK -- optional. Wire a call here (deterministic checks,
+    // or a live LLM judge like the reference applet's "Validate" flow) before
+    // enabling submit, if the task needs it. No-op by default.
+    // ==========================================================================
+    function runValidation() {
+      return { valid: true, issues: [] };
+    }
+
+    // ==========================================================================
+    // EVENTS / STATE_UPDATE / SUBMIT
+    // ==========================================================================
+    function bindEvents() {
+      document.getElementById('main-form').addEventListener('input', scheduleStateUpdate);
+      document.getElementById('main-form').addEventListener('change', scheduleStateUpdate);
+      document.getElementById('submit-btn').addEventListener('click', onSubmit);
+    }
+
+    function scheduleStateUpdate() {
+      if (!currentUnit || !startTime) return;
+      if (stateUpdateTimer) clearTimeout(stateUpdateTimer);
+      stateUpdateTimer = setTimeout(function () {
+        stateUpdateTimer = null;
+        window.parent.postMessage({ type: 'STATE_UPDATE', output: buildCurrentOutput() }, '*');
+      }, 350);
+    }
+
+    function showStatus(message, color) {
+      var el = document.getElementById('status-message');
+      el.textContent = message;
+      el.style.color = color || '#333';
+    }
+
+    function onSubmit() {
+      var result = runValidation();
+      if (!result.valid) {
+        showStatus('Please resolve the flagged issues before submitting.', '#e67e22');
+        return;
+      }
+
+      var output = buildCurrentOutput();
+      var btn = document.getElementById('submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'Submitting…';
+
+      if (stateUpdateTimer) { clearTimeout(stateUpdateTimer); stateUpdateTimer = null; }
+
+      window.parent.postMessage({
+        type: 'SUBMIT',
+        output: output,
+        timeSpentMs: startTime ? Date.now() - startTime : 0,
+      }, '*');
+    }
+  </script>
+</body>
+</html>

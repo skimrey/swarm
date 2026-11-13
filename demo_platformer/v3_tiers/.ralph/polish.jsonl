@@ -1,0 +1,8 @@
+{"seed": 26, "failing_before": 2, "failing_after": 0, "cells_changed": 7, "restarts": 0, "secs": 37.3, "ts": "2026-11-05 20:11:13"}
+{"seed": 26, "failing_before": 5, "failing_after": 0, "cells_changed": 98, "cells_cleared_first": 72, "restarts": 0, "secs": 178.2, "ts": "2026-11-05 20:25:11"}
+{"seed": 27, "failing_before": 6, "failing_after": 0, "cells_changed": 38, "cells_cleared_first": 0, "restarts": 0, "secs": 181.4, "ts": "2026-11-05 20:34:37"}
+{"seed": 28, "failing_before": 51, "failing_after": 0, "cells_changed": 35, "cells_cleared_first": 0, "restarts": 0, "secs": 960.7, "ts": "2026-11-05 22:04:54"}
+{"seed": 30, "failing_before": 51, "failing_after": 0, "cells_changed": 18, "cells_cleared_first": 0, "restarts": 0, "secs": 148.4, "ts": "2026-11-05 22:57:32"}
+{"seed": 31, "failing_before": 51, "failing_after": 0, "cells_changed": 25, "cells_cleared_first": 0, "restarts": 0, "secs": 70.3, "ts": "2026-11-05 22:59:00"}
+{"seed": 32, "failing_before": 7, "failing_after": 0, "cells_changed": 27, "cells_cleared_first": 0, "restarts": 0, "secs": 205.2, "ts": "2026-11-05 23:02:45"}
+{"seed": 33, "failing_before": 51, "failing_after": 2, "cells_changed": 37, "cells_cleared_first": 0, "restarts": 0, "secs": 610.4, "ts": "2026-11-05 23:47:42"}

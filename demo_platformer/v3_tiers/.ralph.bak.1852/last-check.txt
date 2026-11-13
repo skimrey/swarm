@@ -1,0 +1,26 @@
+CHECK FAILED: generateLevel(14) is not completable. A jump in this tier rises at most 3 rows and moves at most 4 columns from one standing cell to the next; a drop of any height is allowed; every cell on the way must be open air. The route from the start reaches 191 of 205 standing cells and stops at column 53 row 6. The goal is at column 54 row 0. The nearest standing cell the route cannot reach is at column 53 row 0: 6 rows higher, over the limit of 3. Move a platform closer to column 53 row 6 or add a stepping platform between. Change the platform list so every jump from the start to the goal is inside those limits and the goal stands on a platform the route reaches.
+CHECK FAILED: generateLevel(15) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(16) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(17) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(18) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(19) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(20) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(21) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(22) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(23) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(24) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(25) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(26) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(27) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(28) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(29) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(30) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(31) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(32) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(33) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(34) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(35) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(36) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(37) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(38) returned 0 rows, shorter than 20
+CHECK FAILED: generateLevel(39) returned 0 rows, shorter than 20
